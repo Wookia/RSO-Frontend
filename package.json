@@ -1,0 +1,17 @@
+{
+  "name": "RSO-Frontend",
+  "version": "0.0.1",
+  "description": "Frontend for RSO project",
+  "scripts": {
+    "start": "node portal.js",
+    "postinstall": "cd src && npm install && cd .."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wookia/RSO-Frontend"
+  },
+  "homepage": "https://github.com/Wookia/RSO-Frontend#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
