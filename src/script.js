@@ -1,3 +1,5 @@
+var root = location.protocol + '//' + location.hostname;
+
 function callAjax(url, callback){
     var xmlhttp;
 
@@ -10,15 +12,14 @@ function callAjax(url, callback){
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }
-
 function callAuth(){
-    callAjax('http://localhost:8000/auth/', function(resposne){
+    callAjax(root+':8000/auth/', function(resposne){
         console.log(resposne);
     })
 }
 
 function callSecondary(){
-    callAjax('http://localhost:8000/secondary/', function(resposne){
+    callAjax(root+':8000/secondary/', function(resposne){
         console.log(resposne);
     })
 }
