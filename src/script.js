@@ -18,8 +18,14 @@ function callAuth(){
     })
 }
 
-function callSecondary(){
-    callAjax(root+':8000/secondary/', function(resposne){
+function callReservations(){
+    callAjax(root+':8000/reservations/', function(resposne){
+        console.log(resposne);
+    })
+}
+
+function callOrders(){
+    callAjax(root+':8000/orders/', function(resposne){
         console.log(resposne);
     })
 }
