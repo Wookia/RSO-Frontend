@@ -39,6 +39,7 @@ export class Login extends React.Component {
                 else if (response.status !== 200) {
                     console.log('Looks like there was a problem. Status Code: ' +
                     response.status);
+                    self.setState({info: 'Wystąpił błąd z połączeniem'});
                     return;
                 }
 
