@@ -1,12 +1,15 @@
 import React from 'react';
 
 export class Login extends React.Component {
+    initialState = {username: '', password: '', info: ''};
+
     constructor(props) {
       super(props);
       this.handleLoginChange = this.handleLoginChange.bind(this);
       this.handlePasswordChange = this.handlePasswordChange.bind(this);
       this.login = this.login.bind(this);
-      this.state = {username: '', password: '', info: ''}
+      this.logOut = this.logOut.bind(this);
+      this.state = this.initialState;
     }
 
     login(event)
@@ -25,7 +28,7 @@ export class Login extends React.Component {
     }
 
     tryLogin(username, password)
-    {
+    {        
         return username === 'teemka' && password === 'teemka';
     }
 
@@ -36,6 +39,12 @@ export class Login extends React.Component {
     handlePasswordChange(event) {
         this.setState({password: event.target.value, info: ''});
     }
+
+    logOut()
+    {
+        this.setState(this.initialState);
+        this.props.logOut();
+    }
   
     render() {
         if (this.props.user.loggedIn)
@@ -43,7 +52,7 @@ export class Login extends React.Component {
             return (
                 <div className="form-inline">
                     <NavbarInfo text={"Hello " + this.props.user.login} />
-                    <button className="btn my-2 my-sm-0" onClick={this.props.logOut}>Logout</button>
+                    <button className="btn my-2 my-sm-0" onClick={this.logOut}>Logout</button>
                 </div>
             );
         }
