@@ -1,7 +1,9 @@
 import React from 'react';
+import '../App.css'
+import { root } from '../dockerTest'
 
 export class Login extends React.Component {
-    initialState = {username: '', password: '', info: ''};
+    initialState = {username: '', password: '', info: '', token: ''};
 
     constructor(props) {
       super(props);
@@ -16,20 +18,41 @@ export class Login extends React.Component {
     {
         var username = this.state.username;
         var password = this.state.password;
-        if (this.tryLogin(username, password))
-        {
-            this.props.loginSuccessfull(username);
-        }
-        else
-        {
-            this.setState({info: 'Podano błędny login lub hasło'});
-        }
-        event.preventDefault();
-    }
+        var url = root + ':8000/auth/';
+        var data = {username: username, password: password};
+        var self = this;
 
-    tryLogin(username, password)
-    {        
-        return username === 'teemka' && password === 'teemka';
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            mode: 'no-cors'
+        }).then(
+            function(response) {
+                if (response.status === 401)
+                {
+                    self.setState({info: 'Podano błędny login lub hasło'});
+                    return;
+                }
+                else if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' +
+                    response.status);
+                    return;
+                }
+
+                response.json().then(function(data) {
+                    console.log(data);
+                    self.props.loginSuccessfull(username, data);
+                });
+            }
+        )
+        .catch(function(error) {
+            self.setState({info: 'Wystąpił błąd z połączeniem'});
+            console.error('Error:', error);
+        });
+        event.preventDefault();
     }
 
     handleLoginChange(event) {
@@ -76,7 +99,7 @@ export class Login extends React.Component {
 
 function NavbarInfo(props) {
     if (props.text)
-        return(<span className={'navbar-text ' + props.additionalClass} style={{marginRight: '.5em'}}>{props.text}</span>);
+        return(<span className={'fade-in navbar-text ' + props.additionalClass} style={{marginRight: '.5em'}}>{props.text}</span>);
     else
         return(null);
 }

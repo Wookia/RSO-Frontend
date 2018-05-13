@@ -1,5 +1,5 @@
 import React from 'react';
-import { callAuth, callReservations, callOrders } from './dockerTest.js';
+import { callAuth, callReservations, callOrders } from '../dockerTest.js';
 import 'bootstrap-css'
 
 export function TestButtons() {

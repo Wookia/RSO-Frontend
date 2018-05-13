@@ -1,4 +1,4 @@
-const root = window.location.protocol + '//' + window.location.hostname;
+export const root = window.location.protocol + '//' + window.location.hostname;
 
 export function callAjax(url, callback){
     var xmlhttp;
