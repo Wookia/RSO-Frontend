@@ -14,8 +14,7 @@ export class Login extends React.Component {
       this.state = this.initialState;
     }
 
-    login(event)
-    {
+    login(event) {
         event.preventDefault();
         var username = this.state.username;
         var password = this.state.password;
@@ -26,10 +25,10 @@ export class Login extends React.Component {
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(data),
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            }),
-            mode: 'no-cors'
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json'
+            }
         }).then(
             function(response) {
                 if (response.status === 401)
@@ -44,9 +43,9 @@ export class Login extends React.Component {
                     return;
                 }
 
-                response.json().then(function(data) {
+                response.json().then((data) => {
                     console.log(data);
-                    self.props.loginSuccessfull(username, data);
+                    self.props.loginSuccessfull(username, data.token);
                 });
             }
         )

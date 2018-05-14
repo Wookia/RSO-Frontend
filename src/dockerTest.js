@@ -19,13 +19,32 @@ export function callAuth(){
 }
 
 export function callReservations(){
-    callAjax(root+':8000/reservations/', function(response){
-        console.log(response);
-    })
+    return new Promise((resolve, reject) => {
+        callAjax(root+':8000/table/', function(response){
+            resolve(response);
+        })
+    });
 }
 
 export function callOrders(){
-    callAjax(root+':8000/orders/', function(response){
-        console.log(response);
-    })
+    return new Promise((resolve, reject) => {
+        callAjax(root+':8000/orders/', function(response){
+            resolve(response);
+        })
+    });
+}
+
+export function callGetUsers(token){
+    return new Promise((resolve, reject) => {
+        fetch(root+':8000/user/',
+        {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }).then((response) => {
+            resolve(response);
+        }).catch((err) => {
+            reject(err);
+        });
+    });
 }

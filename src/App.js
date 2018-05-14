@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TestButtons } from './Components/testButtons';
-import { Login } from './Components/login' 
+import { Login } from './Components/login'
 
 const initialState = {user: {login: '', loggedIn: false}}
 
@@ -25,11 +25,11 @@ class App extends Component {
   render() {
     return (
       <div>
-        <nav className="navbar justify-content-between" style={{flexDirection: 'row'}}>
+        <nav className="navbar navbar-light bg-light justify-content-between" style={{flexDirection: 'row'}}>
           <span className="navbar-brand">RSO</span>
           <Login user={this.state.user} loginSuccessfull={this.loginSuccessfull} logOut={this.logOut}/>
         </nav>
-        <TestButtons />
+        <TestButtons isLoggedIn={this.state.user.loggedIn}/>
       </div>
     );
   }
