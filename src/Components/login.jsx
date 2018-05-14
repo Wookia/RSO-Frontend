@@ -16,6 +16,7 @@ export class Login extends React.Component {
 
     login(event)
     {
+        event.preventDefault();
         var username = this.state.username;
         var password = this.state.password;
         var url = root + ':8000/auth/';
@@ -33,7 +34,7 @@ export class Login extends React.Component {
             function(response) {
                 if (response.status === 401)
                 {
-                    self.setState({info: 'Podano błędny login lub hasło'});
+                    self.setState({info: 'Podano błędny login lub hasło', password: ''});
                     return;
                 }
                 else if (response.status !== 200) {
@@ -53,7 +54,6 @@ export class Login extends React.Component {
             self.setState({info: 'Wystąpił błąd z połączeniem'});
             console.error('Error:', error);
         });
-        event.preventDefault();
     }
 
     handleLoginChange(event) {
@@ -90,7 +90,7 @@ export class Login extends React.Component {
                         onChange={this.handleLoginChange}/>
                     <input className="form-control mr-sm-2" type="password" placeholder="password" 
                         value={this.state.password} 
-                        onChange={this.handlePasswordChange}/>                    
+                        onChange={this.handlePasswordChange}/>
                     <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
                 </form>
             );
