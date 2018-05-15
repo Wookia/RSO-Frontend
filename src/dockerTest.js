@@ -1,4 +1,10 @@
-export const root = window.location.protocol + '//' + window.location.hostname;
+
+const headers = (token) => ({
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    Authorization: `Bearer ${token}`
+});
+export const root = "http://192.168.99.100" //window.location.protocol + '//' + window.location.hostname;
 
 export function callAjax(url, callback){
     var xmlhttp;
@@ -31,11 +37,8 @@ export function callOrders(){
 
 export function callGetUsers(token){
     return new Promise((resolve, reject) => {
-        fetch(root+':8000/user/',
-        {
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
+        fetch(root+':8000/user/', {
+            headers: headers(token)
         }).then((response) => {
             resolve(response);
         }).catch((err) => {

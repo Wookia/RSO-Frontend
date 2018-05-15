@@ -29,7 +29,7 @@ class App extends Component {
           <span className="navbar-brand">RSO</span>
           <Login user={this.state.user} loginSuccessfull={this.loginSuccessfull} logOut={this.logOut}/>
         </nav>
-        <TestButtons isLoggedIn={this.state.user.loggedIn}/>
+        <TestButtons token={this.state.user.token} isLoggedIn={this.state.user.loggedIn}/>
       </div>
     );
   }

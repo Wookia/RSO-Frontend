@@ -33,11 +33,11 @@ export class TestButtons extends React.Component {
     getUsers()
     {
         var self = this;
-        callGetUsers()
+        callGetUsers(this.props.token)
         .then((success) =>
         {
-            success.json().then((body) => {
-                self.setState({body: body})
+            success.json().then((response) => {
+                self.setState({body: JSON.stringify(response)})
             })
             .catch((err) => {console.log(err);});
         })
