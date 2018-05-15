@@ -4,7 +4,8 @@ const headers = (token) => ({
     Accept: 'application/json',
     Authorization: `Bearer ${token}`
 });
-export const root = "http://192.168.99.100" //window.location.protocol + '//' + window.location.hostname;
+
+export const root = window.location.protocol + '//' + window.location.hostname;
 
 export function callAjax(url, callback){
     var xmlhttp;
