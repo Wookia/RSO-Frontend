@@ -12,11 +12,6 @@ export function callAjax(url, callback){
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }
-export function callAuth(){
-    callAjax(root+':8000/auth/', function(response){
-        console.log(response);
-    })
-}
 
 export function callReservations(){
     return new Promise((resolve, reject) => {

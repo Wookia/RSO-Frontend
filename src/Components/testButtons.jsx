@@ -1,5 +1,5 @@
 import React from 'react';
-import { callAuth, callReservations, callOrders, callGetUsers } from '../dockerTest.js';
+import {callReservations, callOrders, callGetUsers } from '../dockerTest.js';
 
 export class TestButtons extends React.Component {
     constructor(props)
@@ -48,7 +48,6 @@ export class TestButtons extends React.Component {
         return (
             <div style={{textAlign: 'center'}}>
                 <div className="btn-group" role="group">
-                    <button onClick={callAuth} className='btn btn-default'>Call Auth</button>
                     <button onClick={this.getTables} className="btn btn-default">Call Reservations</button>
                     <button onClick={this.getOrders} className="btn btn-default">Call Orders</button>
                     {
