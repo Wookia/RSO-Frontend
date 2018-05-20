@@ -44,35 +44,31 @@ export class Tabs extends React.Component {
     }
 
     render() {
-        if (!this.props.user.loggedIn) {
-            return (null);
-        }
-        else {
-            return (
-                <div>
-                    <nav aria-label="breadcrumb">
-                        <ol className="breadcrumb">
-                            {breadcrumbs.map((item, index) => {
-                                return (
-                                    index !== this.state.selectedTab ? 
-                                    <li key={item.name} className={'breadcrumb-item'}>
-                                        <a href="" onClick={(e) => this.setSelectedTab(e, index)}>
-                                            {item.name}
-                                        </a>
-                                    </li>
-                                    :
-                                    <li key={item.name} className={'breadcrumb-item' + (index === this.state.selectedTab ? ' active' : '')}>
+        return (
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol className="breadcrumb">
+                        {breadcrumbs.map((item, index) => {
+                            return (
+                                index !== this.state.selectedTab ? 
+                                <li key={item.name} className={'breadcrumb-item'}>
+                                    <a href="" onClick={(e) => this.setSelectedTab(e, index)}>
                                         {item.name}
-                                    </li>
-                                )
-                            })}
-                        </ol>
-                    </nav>
-                    <div className="container">
-                        {this.renderBody()}
-                    </div>
+                                    </a>
+                                </li>
+                                :
+                                <li key={item.name} className={'breadcrumb-item' + (index === this.state.selectedTab ? ' active' : '')}>
+                                    {item.name}
+                                </li>
+                            )
+                        })}
+                    </ol>
+                </nav>
+                <div className="container">
+                    {this.renderBody()}
                 </div>
-            );
-        }
+            </div>
+        );
     }
+    
 }
