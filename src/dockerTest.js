@@ -22,17 +22,17 @@ export function callAjax(url, callback){
 
 export function callReservations(){
     return new Promise((resolve, reject) => {
-        callAjax(root+':8000/table/', function(response){
-            resolve(response);
-        })
+        fetch(root+':8000/table/')
+            .then(response => resolve(response))
+            .catch(err => reject(err))
     });
 }
 
 export function callOrders(){
     return new Promise((resolve, reject) => {
-        callAjax(root+':8000/orders/', function(response){
-            resolve(response);
-        })
+        fetch(root+':8000/orders/')
+            .then(response => resolve(response))
+            .catch(err => reject(err))
     });
 }
 

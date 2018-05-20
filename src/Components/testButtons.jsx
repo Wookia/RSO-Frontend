@@ -22,12 +22,10 @@ export class TestButtons extends React.Component {
 
     getOrders()
     {
-        var self = this;
         callOrders()
-        .then((success) =>
-        {
-            self.setState({body: success})
-        });
+            .then(success => success.json())
+            .then(obj => this.setState({body: JSON.stringify(obj)}))
+            .catch(err => this.setState({body: err}));
     }
 
     getUsers()

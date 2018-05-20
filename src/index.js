@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import { App, localStorageKey } from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+let state = JSON.parse(localStorage.getItem(localStorageKey));
+ReactDOM.render(<App savedState={state}/>, document.getElementById('root'));
 registerServiceWorker();
