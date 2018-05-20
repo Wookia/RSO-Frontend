@@ -70,48 +70,39 @@ export class Register extends React.Component {
     }
 
     render() {
-        if (this.props.loggedIn)
-        {
+        if (this.state.registered) {
             return (
-                null
+                <div className="container">
+                    <Info text={this.state.info} additionalClass={'text-success'}/>
+                </div>
             );
         }
-        else
-        {
-            if (this.state.registered) {
-                return (
-                    <div className="container">
-                        <Info text={this.state.info} additionalClass={'text-success'}/>
+        else {
+            return (
+                <form onSubmit={this.register} className="container">
+                    <h3>Register new user</h3>
+                    <div className="form-group">
+                        <label htmlFor="registrationUsername">Username</label>
+                        <input id="registrationUsername" className="form-control mr-sm-2" type="text" 
+                            value={this.state.username} 
+                            onChange={this.handleLoginChange}/>
                     </div>
-                );
-            }
-            else {
-                return (
-                    <form onSubmit={this.register} className="container">
-                        <h3>Register new user</h3>
-                        <div className="form-group">
-                            <label htmlFor="registrationUsername">Username</label>
-                            <input id="registrationUsername" className="form-control mr-sm-2" type="text" 
-                                value={this.state.username} 
-                                onChange={this.handleLoginChange}/>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="registrationPassword">Password</label>
-                            <input id="registrationPassword" className="form-control mr-sm-2" type="password" 
-                                value={this.state.password} 
-                                onChange={this.handlePasswordChange}/>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="registrationConfirmPassword">Confirm password</label>
-                            <input id="registrationConfirmPassword" className="form-control mr-sm-2" type="password" 
-                                value={this.state.passwordConfirmation} 
-                                onChange={this.handlePasswordConfirmationChange}/>
-                        </div>
-                        <button className="btn btn-primary" type="submit">Register</button>
-                        <Info text={this.state.info} additionalClass={'text-danger'}/>
-                    </form>
-                );
-            }
+                    <div className="form-group">
+                        <label htmlFor="registrationPassword">Password</label>
+                        <input id="registrationPassword" className="form-control mr-sm-2" type="password" 
+                            value={this.state.password} 
+                            onChange={this.handlePasswordChange}/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="registrationConfirmPassword">Confirm password</label>
+                        <input id="registrationConfirmPassword" className="form-control mr-sm-2" type="password" 
+                            value={this.state.passwordConfirmation} 
+                            onChange={this.handlePasswordConfirmationChange}/>
+                    </div>
+                    <button className="btn btn-primary" type="submit">Register</button>
+                    <Info text={this.state.info} additionalClass={'text-danger'}/>
+                </form>
+            );
         }
     }
 }

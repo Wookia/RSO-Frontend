@@ -43,7 +43,6 @@ export class App extends Component {
                 : 
                   <Register loggedIn={this.state.user.loggedIn}/>
             }
-            
         </div>
       );
     }
