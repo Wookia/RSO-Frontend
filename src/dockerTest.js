@@ -1,9 +1,10 @@
 
-const headers = (token) => ({
+const headers = {
     'Content-Type': 'application/json',
-    Accept: 'application/json',
-    Authorization: `Bearer ${token}`
-});
+    Accept: 'application/json'
+};
+
+const headersWithAuthorization = (token) => (Object.assign(headers, {Authorization: `Bearer ${token}`}))
 
 export const root = window.location.protocol + '//' + window.location.hostname;
 
@@ -36,10 +37,22 @@ export function callOrders(){
     });
 }
 
+export function deleteDish(orderId, dishId){
+    return new Promise((resolve, reject) => {
+        fetch(`${root}:8000/orders/dish/${orderId}`, {
+            method: 'DELETE',
+            body: JSON.stringify({dish: dishId}),
+            headers: headers
+        })
+            .then(response => resolve(response))
+            .catch(err => reject(err))
+    });
+}
+
 export function callGetUsers(token){
     return new Promise((resolve, reject) => {
         fetch(root+':8000/user/', {
-            headers: headers(token)
+            headers: headersWithAuthorization(token)
         }).then((response) => {
             resolve(response);
         }).catch((err) => {

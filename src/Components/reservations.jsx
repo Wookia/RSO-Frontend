@@ -2,15 +2,15 @@ import React from 'react';
 import { callReservations } from '../dockerTest'
 
 export class Reservations extends React.Component {
-    initialState = {users: []};
+    initialState = { users: [] };
 
     constructor(props) {
-      super(props);
-      this.state = this.initialState;
+        super(props);
+        this.state = this.initialState;
     }
 
     componentDidMount() {
-        this.setState({isLoading: true});
+        this.setState({ isLoading: true });
 
         callReservations()
             .then(response => {
@@ -20,7 +20,7 @@ export class Reservations extends React.Component {
                     throw new Error('Something went wrong ...');
                 }
             })
-            .then(data => this.setState({users: data, isLoading: false}))
+            .then(data => this.setState({ users: data, isLoading: false }))
             .catch(error => this.setState({ error, isLoading: false }));
     }
 
@@ -43,12 +43,12 @@ export class Reservations extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                {users.map((item) => {
-                    return (
-                        <tr>
-                        </tr>
-                    );
-                })}
+                    {users.map((item) => {
+                        return (
+                            <tr>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
         )

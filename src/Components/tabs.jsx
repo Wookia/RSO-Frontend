@@ -5,16 +5,16 @@ import { Users } from './users'
 import { Orders } from './orders'
 import { Reservations } from './reservations'
 
-const breadcrumbs = 
-[
-    {name: 'Orders'},
-    {name: 'Reservations'},
-    {name: 'Users'},
-    {name: 'Test'}
-];
+const breadcrumbs =
+    [
+        { name: 'Orders' },
+        { name: 'Reservations' },
+        { name: 'Users' },
+        { name: 'Test' }
+    ];
 
 export class Tabs extends React.Component {
-    initialState = {selectedTab: 0};
+    initialState = { selectedTab: 0 };
 
     constructor(props) {
         super(props);
@@ -25,19 +25,19 @@ export class Tabs extends React.Component {
 
     setSelectedTab(e, index) {
         e.preventDefault();
-        this.setState({selectedTab: index});
+        this.setState({ selectedTab: index });
     }
 
     renderBody() {
-        switch(this.state.selectedTab) {
+        switch (this.state.selectedTab) {
             case 0:
                 return <Orders />;
             case 1:
                 return <Reservations />;
             case 2:
-                return <Users token={this.props.user.token}/>;
+                return <Users token={this.props.user.token} />;
             case 3:
-                return <TestButtons token={this.props.user.token} isLoggedIn={this.props.user.loggedIn}/>
+                return <TestButtons token={this.props.user.token} isLoggedIn={this.props.user.loggedIn} />
             default:
                 return null;
         }
@@ -50,16 +50,16 @@ export class Tabs extends React.Component {
                     <ol className="breadcrumb">
                         {breadcrumbs.map((item, index) => {
                             return (
-                                index !== this.state.selectedTab ? 
-                                <li key={item.name} className={'breadcrumb-item'}>
-                                    <a href="" onClick={(e) => this.setSelectedTab(e, index)}>
+                                index !== this.state.selectedTab ?
+                                    <li key={item.name} className={'breadcrumb-item'}>
+                                        <a href="" onClick={(e) => this.setSelectedTab(e, index)}>
+                                            {item.name}
+                                        </a>
+                                    </li>
+                                    :
+                                    <li key={item.name} className={'breadcrumb-item' + (index === this.state.selectedTab ? ' active' : '')}>
                                         {item.name}
-                                    </a>
-                                </li>
-                                :
-                                <li key={item.name} className={'breadcrumb-item' + (index === this.state.selectedTab ? ' active' : '')}>
-                                    {item.name}
-                                </li>
+                                    </li>
                             )
                         })}
                     </ol>
@@ -70,5 +70,4 @@ export class Tabs extends React.Component {
             </div>
         );
     }
-    
 }

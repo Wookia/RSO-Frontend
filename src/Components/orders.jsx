@@ -1,11 +1,12 @@
 import React from 'react';
-import { callOrders } from '../dockerTest'
+import { callOrders, deleteDish } from '../dockerTest'
 
 export class Orders extends React.Component {
-    initialState = {users: []};
+    initialState = {orders: []};
 
     constructor(props) {
       super(props);
+      this.deleteDishClick = this.deleteDishClick.bind(this);
       this.state = this.initialState;
     }
 
@@ -20,12 +21,30 @@ export class Orders extends React.Component {
                     throw new Error('Something went wrong ...');
                 }
             })
-            .then(data => this.setState({users: data, isLoading: false}))
+            .then(data => this.setState({orders: data, isLoading: false}))
+            .catch(error => this.setState({ error, isLoading: false }));
+    }
+
+    deleteDishClick(e, orderId, dishId) {
+        e.preventDefault();
+        deleteDish(orderId, dishId)
+            .then(response => {
+                if (response.ok) {
+                    this.setState(
+                        {orders: this.state.orders.map((order) => 
+                            orderId === order.id ?
+                            {...order, dishes: order.dishes.filter(dish => dish !== dishId)}
+                            : order)}
+                        );
+                } else {
+                    throw new Error('Something went wrong ...');
+                }
+            })
             .catch(error => this.setState({ error, isLoading: false }));
     }
 
     render() {
-        const { users, isLoading, error } = this.state;
+        const { orders, isLoading, error } = this.state;
 
         if (error) {
             return <span className="text-danger">{error.message}</span>
@@ -46,13 +65,19 @@ export class Orders extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                {users.map((item) => {
+                {orders.map((order) => {
                     return (
-                        <tr key={item.id}>
-                            <td>{item.table}</td>
-                            <td>{item.waiter}</td>
-                            <td>{item.state}</td>
-                            <td>{item.dishes ? item.dishes.join(', ') : null}</td>
+                        <tr key={order.id}>
+                            <td>{order.table}</td>
+                            <td>{order.waiter}</td>
+                            <td>{order.state}</td>
+                            <td>{order.dishes && order.dishes.length !== 0 ?
+                                    order.dishes
+                                        .map(dish => 
+                                            <a href="" key={dish} onClick={(e) => this.deleteDishClick(e, order.id, dish)}>{dish}</a>)
+                                        .reduce((prev, curr) => [prev, ', ', curr]) 
+                                    : null}
+                            </td>
                         </tr>
                     );
                 })}
