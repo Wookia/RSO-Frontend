@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Login } from './Components/login'
 import { Register } from './Components/register'
 import { Tabs } from './Components/tabs'
+import jwt from 'jsonwebtoken';
 
-const initialState = { user: { login: '', loggedIn: false, token: '' } };
+const initialState = { user: { login: '', loggedIn: false, token: '', id: '', role: null, iat: null, expiration: null }};
 export const localStorageKey = 'reactState';
 
 export class App extends Component {
@@ -18,7 +19,18 @@ export class App extends Component {
   }
 
   loginSuccessfull(username, token) {
-    let nextState = { user: { login: username, loggedIn: true, token: token } };
+    const decoded = jwt.decode(token);
+    let nextState = {
+      user: {
+        login: username,
+        loggedIn: true,
+        token: token,
+        id: decoded.id,
+        role: decoded.role, 
+        iat: new Date(decoded.iat * 1000),
+        expiration: new Date(decoded.exp * 1000)
+      }
+    };
     localStorage.setItem(localStorageKey, JSON.stringify(nextState));
     this.setState(nextState);
   }

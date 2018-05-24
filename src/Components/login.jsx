@@ -43,7 +43,6 @@ export class Login extends React.Component {
                 }
 
                 response.json().then((data) => {
-                    console.log(data);
                     self.props.loginSuccessfull(username, data.token);
                 });
             }

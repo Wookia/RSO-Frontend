@@ -19,19 +19,24 @@ export class Tabs extends React.Component {
     constructor(props) {
         super(props);
         this.renderBody = this.renderBody.bind(this);
+        this.setSelectedTabClick = this.setSelectedTabClick.bind(this);
         this.setSelectedTab = this.setSelectedTab.bind(this);
         this.state = this.initialState;
     }
 
-    setSelectedTab(e, index) {
+    setSelectedTabClick(e, index) {
         e.preventDefault();
+        this.setSelectedTab(index);
+    }
+
+    setSelectedTab(index) {
         this.setState({ selectedTab: index });
     }
 
     renderBody() {
         switch (this.state.selectedTab) {
             case 0:
-                return <Orders />;
+                return <Orders user={this.props.user} />;
             case 1:
                 return <Reservations />;
             case 2:
@@ -52,7 +57,7 @@ export class Tabs extends React.Component {
                             return (
                                 index !== this.state.selectedTab ?
                                     <li key={item.name} className={'breadcrumb-item'}>
-                                        <a href="" onClick={(e) => this.setSelectedTab(e, index)}>
+                                        <a href="" onClick={(e) => this.setSelectedTabClick(e, index)}>
                                             {item.name}
                                         </a>
                                     </li>
