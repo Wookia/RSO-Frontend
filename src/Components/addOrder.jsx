@@ -42,7 +42,7 @@ export class AddOrder extends React.Component {
         });
     }
 
-    addNewOrder(e) {
+    async addNewOrder(e) {
         e.preventDefault();
         const { table, dishes } = this.state;
         var data = { table: table, waiter: this.props.user.login, state: 'start', dishes: dishes.map(dish => dish.id) };
@@ -57,9 +57,12 @@ export class AddOrder extends React.Component {
             return;
         }
 
-        addOrder(data)
-            .then(response => { this.props.toggler() })
-            .catch(err => this.setState({ info: err.message }))
+        try {
+            await addOrder(data)
+            this.props.toggler();
+        } catch(err) {
+            this.setState({ info: err.message });
+        }
     }
 
     handleTableChange(event) {

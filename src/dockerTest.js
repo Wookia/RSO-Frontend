@@ -45,16 +45,12 @@ export function getMenuItems() {
     });
 }
 
-export function addOrder(order) {
-    return new Promise((resolve, reject) => {
-        fetch(root + ':8000/api/orders/', {
+export async function addOrder(order) {
+    return await fetch(root + ':8000/api/orders/', {
             method: 'POST',
             body: JSON.stringify(order),
             headers: headers
-        })
-            .then(response => resolve(response))
-            .catch(err => reject(err))
-    });
+        });
 }
 
 export function deleteDish(orderId, dishId) {
