@@ -1,5 +1,6 @@
 import React from 'react';
 import { callOrders, deleteDish } from '../dockerTest'
+import '../tools/helperFunctions'
 
 export class OrderList extends React.Component {
     initialState = {orders: []};
@@ -25,7 +26,7 @@ export class OrderList extends React.Component {
             .catch(error => this.setState({ error, isLoading: false }));
     }
 
-    deleteDishClick(e, orderId, dishId) {
+    deleteDishClick(e, orderId, dishId, index) {
         e.preventDefault();
         deleteDish(orderId, dishId)
             .then(response => {
@@ -33,7 +34,7 @@ export class OrderList extends React.Component {
                     this.setState(
                         {orders: this.state.orders.map((order) => 
                             orderId === order.id ?
-                            {...order, dishes: order.dishes.filter(dish => dish !== dishId)}
+                            {...order, dishes: order.dishes.immutableDeleteAt(index)}
                             : order)}
                         );
                 } else {
@@ -74,8 +75,8 @@ export class OrderList extends React.Component {
                                 <td>{order.state}</td>
                                 <td>{order.dishes && order.dishes.length !== 0 ?
                                         order.dishes
-                                            .map(dish => 
-                                                <a href="" key={dish} onClick={(e) => this.deleteDishClick(e, order.id, dish)}>{dish}</a>)
+                                            .map((dish, index) => 
+                                                <a href="" key={index} onClick={(e) => this.deleteDishClick(e, order.id, dish, index)}>{dish}</a>)
                                             .reduce((prev, curr) => [prev, ', ', curr]) 
                                         : null}
                                 </td>

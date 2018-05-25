@@ -1,18 +1,19 @@
 import React from 'react';
 import '../App.css'
 import { addOrder, getMenuItems } from '../dockerTest'
+import { BadgeActionList } from './badgeActionList'
+import '../tools/helperFunctions'
 
 const tables = [...Array(15).keys()]
 
 export class AddOrder extends React.Component {
-    initialState = { table: '', currentDish: '', dishes: [], menuItems: [] };
+    initialState = { table: '', dishes: [], menuItems: [], totalPrice: 0 };
 
     constructor(props) {
         super(props);
-        this.handleDishChange = this.handleDishChange.bind(this);
         this.handleTableChange = this.handleTableChange.bind(this);
         this.deleteDishClick = this.deleteDishClick.bind(this);
-        this.addDishClick = this.addDishClick.bind(this);
+        this.addDish = this.addDish.bind(this);
         this.addNewOrder = this.addNewOrder.bind(this);
         this.state = this.initialState;
     }
@@ -32,18 +33,19 @@ export class AddOrder extends React.Component {
             .catch(error => this.setState({ error, isLoading: false }));
     }
 
-    addDishClick(e) {
-        e.preventDefault();
-        if (this.state.currentDish)
-            this.setState((prevState) => {
-                return { dishes: [...prevState.dishes, parseInt(prevState.currentDish, 10)] }
-            });
+    addDish(item) {
+        this.setState((prevState) => {
+            return { 
+                dishes: [...prevState.dishes, item],
+                totalPrice: prevState.totalPrice + item.price
+            }
+        });
     }
 
     addNewOrder(e) {
         e.preventDefault();
         const { table, dishes } = this.state;
-        var data = { table: table, waiter: this.props.user.login, state: 'start', dishes: dishes };
+        var data = { table: table, waiter: this.props.user.login, state: 'start', dishes: dishes.map(dish => dish.id) };
 
         if (!table) {
             this.setState({ info: 'Please select table.' });
@@ -64,16 +66,12 @@ export class AddOrder extends React.Component {
         this.setState({ table: parseInt(event.target.value, 10), info: '' });
     }
 
-    handleDishChange(event) {
-        this.setState({ currentDish: event.target.value, info: '' });
-    }
-
-    deleteDishClick(e, dishIndex) {
-        e.preventDefault();
+    deleteDishClick(dish, dishIndex) {
         this.setState((prevState) => {
-            let newDishes = prevState.dishes.slice();
-            newDishes.splice(dishIndex, 1);
-            return { dishes: newDishes };
+            return { 
+                dishes: prevState.dishes.immutableDeleteAt(dishIndex),
+                totalPrice: prevState.totalPrice - dish.price
+            };
         });
     }
 
@@ -101,27 +99,28 @@ export class AddOrder extends React.Component {
                     optionFunction={(val) => {
                         return <option key={val} value={val}>Table {val}</option>
                     }} />
-                <Select title={'Add dish'} 
-                    value={this.state.currentDish} 
-                    changeFunction={this.handleDishChange} 
-                    options={this.state.menuItems}
-                    optionFunction={(item) => {
-                        return <option key={item.id} value={item.id} title={item.description}>{item.name} - {item.price} zł</option>
-                    }} />
-                <button className="btn btn-default" onClick={this.addDishClick}>Add dish</button>
-                <button className="btn btn-primary" type="submit" style={{ float: 'right' }}>Add Order</button>
+                <BadgeActionList actionFunction={this.addDish} items={this.state.menuItems} badgeText='Add' badgeColor='primary'/>
+                <button className="btn btn-primary" type="submit">Add Order</button>
+                <button className="btn btn-default" style={{float: 'right'}} onClick={this.props.toggler}>Return</button>
                 <Info text={this.state.info} additionalClass={'text-danger'} />
                 <hr />
-                Dishes:
-                    {this.state.dishes && this.state.dishes.length !== 0 ?
-                    this.state.dishes
-                        .map((dish, index) =>
-                            <a href="" key={index} onClick={(e) => this.deleteDishClick(e, index)}>{dish}</a>)
-                        .reduce((prev, curr) => [prev, ', ', curr])
-                    : null}
+                <Summary count={this.state.dishes.length} price={this.state.totalPrice} />
+                <BadgeActionList actionFunction={this.deleteDishClick} items={this.state.dishes} badgeText='Delete' badgeColor='danger'/>
             </form>
         );
     }
+}
+
+function Summary(props) {
+    if (props.count === 0)
+        return (null);
+    else
+        return (
+        <div>
+            <h4>Summary:</h4>
+            <div>Total dishes: <strong>{props.count}</strong></div>
+            <div>Total price: <strong>{props.price} zł</strong></div>
+        </div>);
 }
 
 function Select(props) {
