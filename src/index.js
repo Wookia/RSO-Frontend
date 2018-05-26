@@ -8,3 +8,11 @@ if (state.user.expiration > new Date())
     state = undefined;
 ReactDOM.render(<App savedState={state}/>, document.getElementById('root'));
 registerServiceWorker();
+
+
+//TODO:
+//lepsza prezentacja itemów w menu
+//edytowanie zamówień
+//dodawanie uprawnień pracownikom
+//rezerwacja
+//

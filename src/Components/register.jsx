@@ -84,6 +84,7 @@ export class Register extends React.Component {
                     <div className="form-group">
                         <label htmlFor="registrationUsername">Username</label>
                         <input id="registrationUsername" className="form-control mr-sm-2" type="text"
+                            autoComplete='off'
                             value={this.state.username}
                             onChange={this.handleLoginChange} />
                     </div>

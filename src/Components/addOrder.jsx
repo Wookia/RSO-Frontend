@@ -2,6 +2,7 @@ import React from 'react';
 import '../App.css'
 import { addOrder, getMenuItems } from '../dockerTest'
 import { BadgeActionList } from './badgeActionList'
+import { MenuItems } from './menuItems'
 import '../tools/helperFunctions'
 
 const tables = [...Array(15).keys()]
@@ -37,7 +38,8 @@ export class AddOrder extends React.Component {
         this.setState((prevState) => {
             return { 
                 dishes: [...prevState.dishes, item],
-                totalPrice: prevState.totalPrice + item.price
+                totalPrice: prevState.totalPrice + item.price,
+                info: ''
             }
         });
     }
@@ -102,7 +104,7 @@ export class AddOrder extends React.Component {
                     optionFunction={(val) => {
                         return <option key={val} value={val}>Table {val}</option>
                     }} />
-                <BadgeActionList actionFunction={this.addDish} items={this.state.menuItems} badgeText='Add' badgeColor='primary'/>
+                <MenuItems actionFunction={this.addDish} items={this.state.menuItems}/>
                 <button className="btn btn-primary" type="submit">Add Order</button>
                 <button className="btn btn-default" style={{float: 'right'}} onClick={this.props.toggler}>Return</button>
                 <Info text={this.state.info} additionalClass={'text-danger'} />
@@ -119,7 +121,7 @@ function Summary(props) {
         return (null);
     else
         return (
-        <div>
+        <div className='form-group'>
             <h4>Summary:</h4>
             <div>Total dishes: <strong>{props.count}</strong></div>
             <div>Total price: <strong>{props.price} zł</strong></div>
