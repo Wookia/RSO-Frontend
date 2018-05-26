@@ -24,13 +24,13 @@ export const roles = {
 export function roleIntToString(role) {
     switch(role) {
         case 0:
-            return "User"
+            return roles["0"].name
         case 1:
-            return "Cook"
+            return roles["1"].name
         case 2:
-            return "Waiter"
+            return roles["2"].name
         case 3:
-            return "Admin"
+            return roles["3"].name
         default:
             return ""
     }

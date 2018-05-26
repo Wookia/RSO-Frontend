@@ -76,3 +76,12 @@ export function callGetUsers(token) {
         });
     });
 }
+
+export async function putUpdatedUser(token, body) {
+    return await
+        fetch(`${root}:8000/user/${body.id}`, {
+            method: 'PUT',
+            headers: headersWithAuthorization(token),
+            body: JSON.stringify(body)
+        });
+}

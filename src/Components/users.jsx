@@ -1,6 +1,6 @@
 import React from 'react';
 import '../App.css'
-import { callGetUsers } from '../dockerTest'
+import { callGetUsers, putUpdatedUser } from '../dockerTest'
 import { roleIntToString } from '../tools/roles'
 
 export class Users extends React.Component {
@@ -8,6 +8,7 @@ export class Users extends React.Component {
 
     constructor(props) {
       super(props);
+      this.updateUser = this.updateUser.bind(this);
       this.state = this.initialState;
     }
 
@@ -31,6 +32,25 @@ export class Users extends React.Component {
             .catch(error => this.setState({ error, isLoading: false }));
     }
 
+    upgradeRole(item) {
+        item.role++;
+        this.updateUser(item);
+    }
+
+    downgradeRole(item) {
+        item.role--;
+        this.updateUser(item);
+    }
+
+    async updateUser(item) {
+        var updated = await putUpdatedUser(this.props.token, item);
+        this.setState((prevState) => {return {users: prevState.users.map(user =>
+            user.id === updated.id ?
+            user.role = updated.role :
+            user
+        )}});
+    }
+
     render() {
         const { users, isLoading, error } = this.state;
 
@@ -50,6 +70,7 @@ export class Users extends React.Component {
                         <th>Created</th>
                         <th>Modified</th>
                         <th>Role</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,6 +81,9 @@ export class Users extends React.Component {
                             <td>{item.createdAt}</td>
                             <td>{item.updatedAt}</td>
                             <td>{roleIntToString(item.role)}</td>
+                            <UpgradeDowngradePills item={item} 
+                                downFunction={() => this.downgradeRole(item)} 
+                                upFunction={() => this.upgradeRole(item)} />
                         </tr>
                     );
                 })}
@@ -67,4 +91,26 @@ export class Users extends React.Component {
             </table>
         )
     }
+}
+
+function UpgradeDowngradePills(props) {
+    var item = props.item;
+    const upPill = (<span style={{cursor: 'pointer'}} 
+                        onClick={props.upFunction} 
+                        className={'badge badge-pill badge-primary'}>
+                            Upgrade role
+                    </span>);
+
+    const downPill = (  <span style={{cursor: 'pointer'}} 
+                            onClick={props.downFunction} 
+                            className={'badge badge-pill badge-danger'}>
+                                Downgrade role
+                        </span>);
+
+    if (item.role < 3 && item.role > 0)
+        return <td>{upPill}{downPill}</td>
+    if (item.role === 3)
+        return <td></td>
+    else
+        return <td>{upPill}</td>
 }

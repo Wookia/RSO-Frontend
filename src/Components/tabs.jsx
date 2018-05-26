@@ -4,13 +4,15 @@ import { TestButtons } from './testButtons';
 import { Users } from './users'
 import { Orders } from './orders'
 import { Reservations } from './reservations'
+import { AddReservation } from './addReservation'
 
 const breadcrumbs =
     [
-        { name: 'Orders' },
-        { name: 'Reservations' },
-        { name: 'Users' },
-        { name: 'Test' }
+        { id: 0, name: 'Reservations', roles: [0,1,2,3] },
+        { id: 1, name: 'Orders', roles: [1,2,3] },
+        { id: 2, name: 'Reservations', roles: [1,2,3] },
+        { id: 3, name: 'Users', roles: [3] },
+        { id: 4, name: 'Test', roles: [0,1,2,3] }
     ];
 
 export class Tabs extends React.Component {
@@ -36,12 +38,14 @@ export class Tabs extends React.Component {
     renderBody() {
         switch (this.state.selectedTab) {
             case 0:
-                return <Orders user={this.props.user} />;
+                return <AddReservation />;
             case 1:
-                return <Reservations />;
+                return <Orders user={this.props.user} />;
             case 2:
-                return <Users token={this.props.user.token} />;
+                return <Reservations />;
             case 3:
+                return <Users token={this.props.user.token} />;
+            case 4:
                 return <TestButtons token={this.props.user.token} isLoggedIn={this.props.user.loggedIn} />
             default:
                 return null;
@@ -49,20 +53,21 @@ export class Tabs extends React.Component {
     }
 
     render() {
+        var breadcrumbsFiltered = breadcrumbs.filter((crumb) => crumb.roles.includes(this.props.user.role));
         return (
             <div>
                 <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
-                        {breadcrumbs.map((item, index) => {
+                        {breadcrumbsFiltered.map((item, index) => {
                             return (
-                                index !== this.state.selectedTab ?
-                                    <li key={item.name} className={'breadcrumb-item'}>
-                                        <a href="" onClick={(e) => this.setSelectedTabClick(e, index)}>
+                                item.id !== this.state.selectedTab ?
+                                    <li key={item.id} className={'breadcrumb-item'}>
+                                        <a href="" onClick={(e) => this.setSelectedTabClick(e, item.id)}>
                                             {item.name}
                                         </a>
                                     </li>
                                     :
-                                    <li key={item.name} className={'breadcrumb-item' + (index === this.state.selectedTab ? ' active' : '')}>
+                                    <li key={item.id} className={'breadcrumb-item' + (item.id === this.state.selectedTab ? ' active' : '')}>
                                         {item.name}
                                     </li>
                             )
