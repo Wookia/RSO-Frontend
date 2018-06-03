@@ -43,12 +43,16 @@ export class Users extends React.Component {
     }
 
     async updateUser(item) {
-        var updated = await putUpdatedUser(this.props.token, item);
-        this.setState((prevState) => {return {users: prevState.users.map(user =>
-            user.id === updated.id ?
-            user.role = updated.role :
-            user
-        )}});
+        try {
+            var updated = await putUpdatedUser(this.props.token, item);
+            this.setState((prevState) => {return {users: prevState.users.map(user =>
+                user.id === updated.id ?
+                user.role = updated.role : // nie wiem dlaczego to działa
+                user
+            )}});
+        } catch(error) {
+            this.setState({error});
+        }
     }
 
     render() {

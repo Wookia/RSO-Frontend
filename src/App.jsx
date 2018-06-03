@@ -12,7 +12,7 @@ export class App extends Component {
     super(props);
     this.loginSuccessfull = this.loginSuccessfull.bind(this);
     this.logOut = this.logOut.bind(this);
-    if (this.props.savedState === undefined)
+    if (this.props.savedState === null)
       this.state = initialState;
     else
       this.state = this.props.savedState;
