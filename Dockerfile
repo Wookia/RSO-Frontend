@@ -11,7 +11,7 @@ COPY . /usr/src/app
 RUN npm install
 
 # Expose on port
-EXPOSE 7373 
+EXPOSE 8000 
 
 # Start the process
 CMD [ "npm", "start" ]
