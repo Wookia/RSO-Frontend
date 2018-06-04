@@ -17,7 +17,7 @@ export class Register extends React.Component {
     register(event) {
         event.preventDefault();
         const { username, password, passwordConfirmation } = this.state;
-        var url = root + ':8000/user/';
+        var url = root + '/api/user/';
         var data = { username: username, password: password };
         var self = this;
 

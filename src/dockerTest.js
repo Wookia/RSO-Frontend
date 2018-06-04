@@ -23,7 +23,7 @@ export function callAjax(url, callback) {
 
 export function callReservations() {
     return new Promise((resolve, reject) => {
-        fetch(root + ':8000/api/table/')
+        fetch(root + '/api/table/')
             .then(response => resolve(response))
             .catch(err => reject(err))
     });
@@ -31,7 +31,7 @@ export function callReservations() {
 
 export function callOrders() {
     return new Promise((resolve, reject) => {
-        fetch(root + ':8000/api/orders/')
+        fetch(root + '/api/orders/')
             .then(response => resolve(response))
             .catch(err => reject(err))
     });
@@ -39,14 +39,14 @@ export function callOrders() {
 
 export function getMenuItems() {
     return new Promise((resolve, reject) => {
-        fetch(root + ':8000/api/menu/')
+        fetch(root + '/api/menu/')
             .then(response => resolve(response))
             .catch(err => reject(err))
     });
 }
 
 export async function addOrder(order) {
-    return await fetch(root + ':8000/api/orders/', {
+    return await fetch(root + '/api/orders/', {
             method: 'POST',
             body: JSON.stringify(order),
             headers: headers
@@ -55,7 +55,7 @@ export async function addOrder(order) {
 
 export function deleteDish(orderId, dishId) {
     return new Promise((resolve, reject) => {
-        fetch(`${root}:8000/api/orders/${orderId}/dish`, {
+        fetch(`${root}/api/orders/${orderId}/dish`, {
             method: 'DELETE',
             body: JSON.stringify({ dish: dishId }),
             headers: headers
@@ -67,7 +67,7 @@ export function deleteDish(orderId, dishId) {
 
 export function callGetUsers(token) {
     return new Promise((resolve, reject) => {
-        fetch(root + ':8000/user/', {
+        fetch(root + '/api/user/', {
             headers: headersWithAuthorization(token)
         }).then((response) => {
             resolve(response);
@@ -79,7 +79,7 @@ export function callGetUsers(token) {
 
 export async function putUpdatedUser(token, body) {
     return await
-        fetch(`${root}:8000/user/${body.id}`, {
+        fetch(`${root}/api/user/${body.id}`, {
             method: 'PUT',
             headers: headersWithAuthorization(token),
             body: JSON.stringify(body)
