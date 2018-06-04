@@ -39,13 +39,16 @@ export class Reservations extends React.Component {
             <table className="table">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>
+                            item
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     {users.map((item) => {
                         return (
                             <tr>
+                                {JSON.stringify(item)}
                             </tr>
                         );
                     })}

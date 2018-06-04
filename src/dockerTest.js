@@ -23,7 +23,7 @@ export function callAjax(url, callback) {
 
 export function callReservations() {
     return new Promise((resolve, reject) => {
-        fetch(root + ':8000/table/')
+        fetch(root + ':8000/api/table/')
             .then(response => resolve(response))
             .catch(err => reject(err))
     });

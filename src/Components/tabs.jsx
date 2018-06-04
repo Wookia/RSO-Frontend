@@ -8,7 +8,7 @@ import { AddReservation } from './addReservation'
 
 const breadcrumbs =
     [
-        { id: 0, name: 'Reservations', roles: [0,1,2,3] },
+        { id: 0, name: 'Add reservation', roles: [0,1,2,3] },
         { id: 1, name: 'Orders', roles: [1,2,3] },
         { id: 2, name: 'Reservations', roles: [1,2,3] },
         { id: 3, name: 'Users', roles: [3] },
