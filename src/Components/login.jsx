@@ -18,7 +18,7 @@ export class Login extends React.Component {
         event.preventDefault();
         var username = this.state.username;
         var password = this.state.password;
-        var url = root + ':8000/auth/';
+        var url = root + '/api/auth/';
         var data = { username: username, password: password };
         var self = this;
 
