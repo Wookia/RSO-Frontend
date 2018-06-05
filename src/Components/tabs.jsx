@@ -58,7 +58,7 @@ export class Tabs extends React.Component {
             case 0:
                 return <AddReservation user={this.props.user} tables={this.state.tables}/>;
             case 1:
-                return <Orders user={this.props.user} />;
+                return <Orders user={this.props.user}  tables={this.state.tables} />;
             case 2:
                 return <Reservations />
             case 3:

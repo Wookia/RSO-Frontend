@@ -84,7 +84,7 @@ export class AddReservation extends React.Component {
             return <Info text={'Loading...'} />
         }
         let selectedTable = this.props.tables.data.find(item => item.id_table === this.state.table);
-        var seatsOptions = [...Array(selectedTable && selectedTable.seats).keys()].map(item => item + 1);
+        var seatsOptions = [...Array(selectedTable && selectedTable.seats).keys()].map(item => ++item);
         var selectDate;
         var selectTime;
         var selectSeats;
