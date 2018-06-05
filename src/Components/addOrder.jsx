@@ -5,8 +5,6 @@ import { BadgeActionList } from './badgeActionList'
 import { MenuItems } from './menuItems'
 import '../tools/helperFunctions'
 
-const tables = [...Array(15).keys()]
-
 export class AddOrder extends React.Component {
     initialState = { table: '', dishes: [], menuItems: [], totalPrice: 0 };
 
@@ -67,8 +65,9 @@ export class AddOrder extends React.Component {
         }
     }
 
-    handleTableChange(event) {
-        this.setState({ table: parseInt(event.target.value, 10), info: '' });
+    handleTableChange(event, tableId) {
+        event.preventDefault();
+        this.setState({ table: tableId, info: '' });
     }
 
     deleteDishClick(dish, dishIndex) {
@@ -97,13 +96,10 @@ export class AddOrder extends React.Component {
         return (
             <form onSubmit={this.addNewOrder} className="container">
                 <h3>Add New Order</h3>
-                <Select title={'Table'} 
+                <SelectTable title={'Table'} 
                     value={this.state.table} 
                     changeFunction={this.handleTableChange} 
-                    options={tables}
-                    optionFunction={(val) => {
-                        return <option key={val} value={val}>Table {val}</option>
-                    }} />
+                    options={this.props.tables.data} />
                 <MenuItems actionFunction={this.addDish} items={this.state.menuItems}/>
                 <button className="btn btn-primary" type="submit">Add Order</button>
                 <button className="btn btn-default" style={{float: 'right'}} onClick={this.props.toggler}>Return</button>
@@ -128,7 +124,7 @@ function Summary(props) {
         </div>);
 }
 
-function Select(props) {
+export function Select(props) {
     return (
         <div className="form-group">
             <label >{props.title}</label>
@@ -144,7 +140,24 @@ function Select(props) {
     );
 }
 
-function Info(props) {
+export function SelectTable(props) {
+    return (
+        <div className="form-group">
+            <label >{props.title}</label>
+            <div>
+                {props.options.map((table) => {
+                    return <div key={table.id_table} onClick={(e) => props.changeFunction(e, table.id_table)} 
+                                className={'table-restaurant ' + (table.id_table === props.value ? 'table-restaurant-active' : '')}>
+                                <span>Table {table.id_table}</span><br/>
+                                <span style={{fontSize: 'smaller'}}>{table.seats} seats</span>
+                            </div>;
+                })}
+            </div>
+        </div>
+    );
+}
+
+export function Info(props) {
     if (props.text)
         return (<span className={'fade-in ml-2 ' + props.additionalClass}>{props.text}</span>);
     else

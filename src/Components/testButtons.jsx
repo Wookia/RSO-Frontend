@@ -1,5 +1,5 @@
 import React from 'react';
-import { callReservations, callOrders, callGetUsers } from '../dockerTest.js';
+import { getAllTables, callOrders, callGetUsers } from '../dockerTest.js';
 
 export class TestButtons extends React.Component {
     constructor(props) {
@@ -12,7 +12,7 @@ export class TestButtons extends React.Component {
 
     getTables() {
         var self = this;
-        callReservations()
+        getAllTables()
             .then((success) => {
                 self.setState({ body: success })
             });

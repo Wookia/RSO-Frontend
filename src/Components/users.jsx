@@ -99,7 +99,7 @@ export class Users extends React.Component {
 
 function UpgradeDowngradePills(props) {
     var item = props.item;
-    const upPill = (<span style={{cursor: 'pointer'}} 
+    const upPill = (<span style={{cursor: 'pointer', marginRight: '0.25em'}} 
                         onClick={props.upFunction} 
                         className={'badge badge-pill badge-primary'}>
                             Upgrade role

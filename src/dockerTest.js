@@ -6,7 +6,7 @@ const headers = {
 
 const headersWithAuthorization = (token) => (Object.assign(headers, { Authorization: `Bearer ${token}` }))
 
-export const root = window.location.protocol + '//' + window.location.hostname;
+export const root = 'https://' + window.location.hostname;
 
 export function callAjax(url, callback) {
     var xmlhttp;
@@ -21,13 +21,45 @@ export function callAjax(url, callback) {
     xmlhttp.send();
 }
 
-export function callReservations() {
+export function getAllTables() {
     return new Promise((resolve, reject) => {
         fetch(root + '/api/table/')
             .then(response => resolve(response))
             .catch(err => reject(err))
     });
 }
+
+export function getAllReservations() {
+    return new Promise((resolve, reject) => {
+        fetch(root + '/api/reservation/')
+            .then(response => resolve(response))
+            .catch(err => reject(err))
+    });
+}
+
+export async function addReservation(data) {
+    return await 
+        fetch(root + '/api/reservation/', {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(data)
+        })
+}
+
+export async function realizeReservation(id) {
+    return await 
+        fetch(`${root}/api/reservation/${id}/realize`, {
+            method: 'PUT',
+        })
+}
+
+export async function deleteReservation(id) {
+    return await 
+        fetch(`${root}/api/reservation/${id}`, {
+            method: 'DELETE',
+        })
+}
+
 
 export function callOrders() {
     return new Promise((resolve, reject) => {

@@ -40,7 +40,7 @@ export class Register extends React.Component {
             }
         }).then(
             function (response) {
-                if (response.status !== 201) {
+                if (!response.ok) {
                     console.log('Looks like there was a problem. Status Code: ' +
                         response.status);
                     self.setState({ info: 'Connection error.' });
