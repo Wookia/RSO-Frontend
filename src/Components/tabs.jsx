@@ -12,10 +12,9 @@ const breadcrumbs =
     [
         { id: 0, name: 'Add reservation', roles: [0,1,2,3] },
         { id: 1, name: 'Orders', roles: [1,2,3] },
-        { id: 2, name: 'Reservations', roles: [1,2,3] },
-        { id: 3, name: 'Tables', roles: [1,2,3] },
-        { id: 4, name: 'Users', roles: [3] },
-        { id: 5, name: 'Test', roles: [0,1,2,3] }
+        { id: 2, name: 'Reservations', roles: [2,3] },
+        { id: 3, name: 'Tables', roles: [2,3] },
+        { id: 4, name: 'Users', roles: [3] }
     ];
 
 export class Tabs extends React.Component {

@@ -45,8 +45,13 @@ export class AddReservation extends React.Component {
             "id_table": this.state.table
         }
         try {
-            await addReservation(data, this.props.user.token);
-            this.setState({info: 'Reservation Added', added: true});
+            var response = await addReservation(data, this.props.user.token);
+            if (response.ok) {
+                this.setState({info: 'Reservation Added', added: true});
+            }
+            else {
+                this.setState({info: 'Sorry, this date is taken.'});
+            }
         } catch (error) {
             this.setState({info: error.message});
         }
