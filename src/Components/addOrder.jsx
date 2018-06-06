@@ -20,7 +20,7 @@ export class AddOrder extends React.Component {
     componentDidMount() {
         this.setState({ isLoading: true, info: 'Loading...' });
 
-        getMenuItems()
+        getMenuItems(this.props.user.token)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -58,7 +58,7 @@ export class AddOrder extends React.Component {
         }
 
         try {
-            await addOrder(data)
+            await addOrder(data, this.props.user.token)
             this.props.toggler();
         } catch(err) {
             this.setState({ info: err.message });
@@ -147,7 +147,7 @@ export function SelectTable(props) {
             <div>
                 {props.options.map((table) => {
                     return <div key={table.id_table} onClick={(e) => props.changeFunction(e, table.id_table)} 
-                                className={'table-restaurant ' + (table.id_table === props.value ? 'table-restaurant-active' : '')}>
+                                className={'table-restaurant slideIn ' + (table.id_table === props.value ? 'table-restaurant-active' : '')}>
                                 <span>Table {table.id_table}</span><br/>
                                 <span style={{fontSize: 'smaller'}}>{table.seats} seats</span>
                             </div>;

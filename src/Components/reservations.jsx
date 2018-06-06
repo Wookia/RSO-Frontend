@@ -8,13 +8,14 @@ export class Reservations extends React.Component {
     constructor(props) {
         super(props);
         this.deleteReservationClick = this.deleteReservationClick.bind(this);
+        this.realizeReservationClick = this.realizeReservationClick.bind(this);
         this.state = this.initialState;
     }
 
     componentDidMount() {
         this.setState({ isLoading: true });
 
-        getAllReservations()
+        getAllReservations(this.props.user.token)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -27,7 +28,7 @@ export class Reservations extends React.Component {
     }
 
     async realizeReservationClick(reservation) {
-        await realizeReservation(reservation.id_reservation);
+        await realizeReservation(reservation.id_reservation, this.props.user.token);
         reservation.realized = true;
         this.setState(prevState => {
             var index = prevState.reservations.indexOf(reservation);
@@ -38,7 +39,7 @@ export class Reservations extends React.Component {
     }
 
     async deleteReservationClick(reservation) {
-        await deleteReservation(reservation.id_reservation);
+        await deleteReservation(reservation.id_reservation, this.props.user.token);
         this.setState(prevState => {
             var index = this.state.reservations.indexOf(reservation);
             var newReservations = prevState.reservations.immutableDeleteAt(index);
@@ -58,7 +59,7 @@ export class Reservations extends React.Component {
         }
 
         return (
-            <table className="table">
+            <table className="table table-hover">
                 <thead>
                     <tr>
                         <th>
@@ -96,7 +97,9 @@ export class Reservations extends React.Component {
                                 }</td>
                                 <td>{dateFrom.toLocaleString()}</td>
                                 <td>{dateTo.toLocaleString()}</td>
-                                <RealizeDeletePills item={item} deleteFunction={() => this.deleteReservationClick(item)} realizeFunction={() => this.realizeReservationClick(item)} />
+                                <RealizeDeletePills item={item} 
+                                    deleteFunction={() => this.deleteReservationClick(item)} 
+                                    realizeFunction={() => this.realizeReservationClick(item)} />
                             </tr>
                         );
                     })}

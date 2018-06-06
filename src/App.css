@@ -37,3 +37,17 @@
     background-color: #007bff;
 }
 
+@keyframes slideInOpacity
+{
+    0% { opacity: 0;}
+    20% { opacity: 0;}
+    100% {opacity: 1;}
+}
+@keyframes slideInAnimation
+{
+    from{transform: translateY(-500px)}
+    to{ transform: translateY(0)}
+}
+.slideIn {
+    animation: slideInAnimation 0.3s cubic-bezier(0.03, 0.73, 0, 0.98) 0s 1, slideInOpacity 0.4s ease 0s 1;
+}

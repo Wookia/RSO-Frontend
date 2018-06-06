@@ -14,7 +14,7 @@ export class OrderList extends React.Component {
     componentDidMount() {
         this.setState({isLoading: true});
 
-        callOrders()
+        callOrders(this.props.user.token)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -28,7 +28,7 @@ export class OrderList extends React.Component {
 
     deleteDishClick(e, orderId, dishId, index) {
         e.preventDefault();
-        deleteDish(orderId, dishId)
+        deleteDish(orderId, dishId, this.props.user.token)
             .then(response => {
                 if (response.ok) {
                     this.setState(

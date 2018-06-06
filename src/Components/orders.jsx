@@ -19,7 +19,7 @@ export class Orders extends React.Component {
 
     render() {
         if (this.state.listSelected) {
-            return <OrderList toggler={this.toggleSelection} />
+            return <OrderList user={this.props.user} toggler={this.toggleSelection} />
         }
         else
             return <AddOrder user={this.props.user} toggler={this.toggleSelection} tables={this.props.tables} />

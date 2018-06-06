@@ -21,76 +21,75 @@ export function callAjax(url, callback) {
     xmlhttp.send();
 }
 
-export function getAllTables() {
+export function getAllTables(token) {
     return new Promise((resolve, reject) => {
-        fetch(root + '/api/table/')
+        fetch(root + '/api/table/', {headers: headersWithAuthorization(token)})
             .then(response => resolve(response))
             .catch(err => reject(err))
     });
 }
 
-export function getAllReservations() {
+export function getAllReservations(token) {
     return new Promise((resolve, reject) => {
-        fetch(root + '/api/reservation/')
+        fetch(root + '/api/reservation/', {headers: headersWithAuthorization(token)})
             .then(response => resolve(response))
             .catch(err => reject(err))
     });
 }
 
-export async function addReservation(data) {
-    return await 
-        fetch(root + '/api/reservation/', {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify(data)
-        })
+export async function addReservation(data, token) {
+    return await fetch(root + '/api/reservation/', {
+        method: 'POST',
+        headers: headersWithAuthorization(token),
+        body: JSON.stringify(data)
+    })
 }
 
-export async function realizeReservation(id) {
-    return await 
-        fetch(`${root}/api/reservation/${id}/realize`, {
-            method: 'PUT',
-        })
+export async function realizeReservation(id, token) {
+    return await fetch(`${root}/api/reservation/${id}/realize`, {
+        method: 'PUT',
+        headers: headersWithAuthorization(token)
+    })
 }
 
-export async function deleteReservation(id) {
-    return await 
-        fetch(`${root}/api/reservation/${id}`, {
-            method: 'DELETE',
-        })
+export async function deleteReservation(id, token) {
+    return await fetch(`${root}/api/reservation/${id}`, {
+        method: 'DELETE',
+        headers: headersWithAuthorization(token)
+    })
 }
 
 
-export function callOrders() {
+export function callOrders(token) {
     return new Promise((resolve, reject) => {
-        fetch(root + '/api/orders/')
+        fetch(root + '/api/orders/', { headers: headersWithAuthorization(token) })
             .then(response => resolve(response))
             .catch(err => reject(err))
     });
 }
 
-export function getMenuItems() {
+export function getMenuItems(token) {
     return new Promise((resolve, reject) => {
-        fetch(root + '/api/menu/')
+        fetch(root + '/api/menu/', { headers: headersWithAuthorization(token) })
             .then(response => resolve(response))
             .catch(err => reject(err))
     });
 }
 
-export async function addOrder(order) {
-    return await fetch(root + '/api/orders/', {
-            method: 'POST',
-            body: JSON.stringify(order),
-            headers: headers
-        });
+export function addOrder(order, token) {
+    return fetch(root + '/api/orders/', {
+        method: 'POST',
+        body: JSON.stringify(order),
+        headers: headersWithAuthorization(token)
+    });
 }
 
-export function deleteDish(orderId, dishId) {
+export function deleteDish(orderId, dishId, token) {
     return new Promise((resolve, reject) => {
         fetch(`${root}/api/orders/${orderId}/dish`, {
             method: 'DELETE',
             body: JSON.stringify({ dish: dishId }),
-            headers: headers
+            headers: headersWithAuthorization(token)
         })
             .then(response => resolve(response))
             .catch(err => reject(err))
@@ -110,10 +109,9 @@ export function callGetUsers(token) {
 }
 
 export async function putUpdatedUser(token, body) {
-    return await
-        fetch(`${root}/api/user/${body.id}`, {
-            method: 'PUT',
-            headers: headersWithAuthorization(token),
-            body: JSON.stringify(body)
-        });
+    return await fetch(`${root}/api/user/${body.id}`, {
+        method: 'PUT',
+        headers: headersWithAuthorization(token),
+        body: JSON.stringify(body)
+    });
 }
