@@ -1,12 +1,12 @@
 import React from 'react';
 import '../App.css'
-import { addOrder, getMenuItems } from '../dockerTest'
+import { addOrder } from '../dockerTest'
 import { BadgeActionList } from './badgeActionList'
 import { MenuItems } from './menuItems'
 import '../tools/helperFunctions'
 
 export class AddOrder extends React.Component {
-    initialState = { table: '', dishes: [], menuItems: [], totalPrice: 0 };
+    initialState = { table: '', dishes: [], totalPrice: 0 };
 
     constructor(props) {
         super(props);
@@ -15,21 +15,6 @@ export class AddOrder extends React.Component {
         this.addDish = this.addDish.bind(this);
         this.addNewOrder = this.addNewOrder.bind(this);
         this.state = this.initialState;
-    }
-
-    componentDidMount() {
-        this.setState({ isLoading: true, info: 'Loading...' });
-
-        getMenuItems(this.props.user.token)
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Something went wrong ...');
-                }
-            })
-            .then(data => this.setState({ menuItems: data, isLoading: false, info: '' }))
-            .catch(error => this.setState({ error, isLoading: false }));
     }
 
     addDish(item) {
@@ -100,9 +85,9 @@ export class AddOrder extends React.Component {
                     value={this.state.table} 
                     changeFunction={this.handleTableChange} 
                     options={this.props.tables.data} />
-                <MenuItems actionFunction={this.addDish} items={this.state.menuItems}/>
+                <MenuItems actionFunction={this.addDish} items={this.props.menuItems}/>
                 <button className="btn btn-primary" type="submit">Add Order</button>
-                <button className="btn btn-default" style={{float: 'right'}} onClick={this.props.toggler}>Return</button>
+                <button className="btn btn-default" style={{float: 'right'}} onClick={this.props.returnFunction}>Return</button>
                 <Info text={this.state.info} additionalClass={'text-danger'} />
                 <hr />
                 <Summary count={this.state.dishes.length} price={this.state.totalPrice} />
@@ -146,7 +131,7 @@ export function SelectTable(props) {
             <label >{props.title}</label>
             <div>
                 {props.options.map((table) => {
-                    return <div key={table.id_table} onClick={(e) => props.changeFunction(e, table.id_table)} 
+                    return <div key={table.id_table} onClick={(e) => props.changeFunction(e, table.id_table)} style={{cursor: 'pointer'}}
                                 className={'table-restaurant slideIn ' + (table.id_table === props.value ? 'table-restaurant-active' : '')}>
                                 <span>Table {table.id_table}</span><br/>
                                 <span style={{fontSize: 'smaller'}}>{table.seats} seats</span>
