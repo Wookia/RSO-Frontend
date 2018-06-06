@@ -1,0 +1,39 @@
+.fade-in {
+    animation: fadeInOpacity 0.4s ease 0s 1;
+}
+
+@keyframes fadeInOpacity
+{
+    0% { opacity: 0;}
+    100% {opacity: 1;}
+}
+
+.badge-list-item {
+    display: inline;
+    margin: 0.5em;
+    margin-right: 1em;
+}
+
+.menu-items {
+    display: inline-block;
+    margin: 0.5em;
+    width: 8em;
+}
+
+.table-restaurant {
+    display: inline-block;
+    margin: 0.5em;
+    width: 8em;
+    height: 8em;
+    background-color: #aaaaaa;
+    text-align: center;
+    border-radius: 1em;
+    cursor: pointer;
+    padding: 2em;
+    transition: all ease 0.3s;
+}
+
+.table-restaurant-active { 
+    background-color: #007bff;
+}
+
