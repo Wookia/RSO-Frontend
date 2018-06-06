@@ -32,7 +32,7 @@ export class Tabs extends React.Component {
     componentDidMount() {
         this.setState({tables: { data: [], isLoading: true }});
 
-        getAllTables()
+        getAllTables(this.props.user.token)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -41,7 +41,7 @@ export class Tabs extends React.Component {
                 }
             })
             .then(data => this.setState({ tables: {data, isLoading: false }}))
-            .catch(error => this.setState({ tables: {error, isLoading: false }}));
+            .catch(error => this.setState({ tables: {data: [],error, isLoading: false }}));
     }
 
     setSelectedTabClick(e, index) {
@@ -58,9 +58,9 @@ export class Tabs extends React.Component {
             case 0:
                 return <AddReservation user={this.props.user} tables={this.state.tables}/>;
             case 1:
-                return <Orders user={this.props.user}  tables={this.state.tables} />;
+                return <Orders user={this.props.user} tables={this.state.tables} />;
             case 2:
-                return <Reservations />
+                return <Reservations user={this.props.user}/>
             case 3:
                 return <Tables tables={this.state.tables}/>;
             case 4:
