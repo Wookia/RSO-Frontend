@@ -8,3 +8,18 @@ if (!Array.prototype.immutableDeleteAt) {
 }
 
 export default Array.prototype.immutableDeleteAt;
+
+export function nextOrderState (state) {
+    switch (state) {
+        case "start":
+            return "ordering";
+        case "ordering":
+            return "kitchen";
+        case "kitchen":
+            return "ready-to-deliver";
+        case "ready-to-deliver":
+            return "finished";
+        default: 
+            return state;
+    }
+}

@@ -1,6 +1,6 @@
 import React from 'react';
-import { callOrders, deleteDish } from '../dockerTest'
-import '../tools/helperFunctions'
+import { callOrders, deleteDish, updateOrder } from '../dockerTest'
+import { nextOrderState } from '../tools/helperFunctions'
 
 export class OrderList extends React.Component {
     initialState = {orders: []};
@@ -8,6 +8,7 @@ export class OrderList extends React.Component {
     constructor(props) {
       super(props);
       this.deleteDishClick = this.deleteDishClick.bind(this);
+      this.updateStatusClick = this.updateStatusClick.bind(this);
       this.state = this.initialState;
     }
 
@@ -44,8 +45,16 @@ export class OrderList extends React.Component {
             .catch(error => this.setState({ error, isLoading: false }));
     }
 
-    updateStatusClick(item, index) {
-        
+    async updateStatusClick(item, index) {
+        var newItem = {...item, state: nextOrderState(item.state)};
+        var response = await updateOrder(newItem, this.props.user.token);
+        if (response.ok) {
+            this.setState(prevState => {
+                var newOrders = prevState.orders.slice();
+                newOrders[index] = newItem;
+                return {orders: newOrders};
+            });
+        }
     }
 
     render() {
@@ -109,7 +118,7 @@ function ActionColumn(props) {
                             className={'badge badge-pill badge-primary'}>
                                 More
                         </span>
-    if (props.role === 1 && props.order.state !== 'end') {
+    if (props.role === 1 && props.order.state !== 'finished' && props.order.state !== 'end') {
         return  <td>{updatePill}{detailsPill}</td>
     }
     else

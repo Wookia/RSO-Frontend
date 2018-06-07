@@ -4,10 +4,10 @@ import '../tools/helperFunctions'
 
 export function OrderDetails (props) {
     var orderItems = [];
+    const findById = item => item.id === dish;
     for (var i = 0; i < props.order.dishes.length; i++) {
         var dish = props.order.dishes[i];
-        // eslint-disable-next-line
-        var menuItem = props.menuItems.find(item => item.id === dish);
+        var menuItem = props.menuItems.find(findById);
         orderItems.push(menuItem);
     }
     var totalPrice = orderItems.reduce((acc, val) => acc + val.price, 0);
