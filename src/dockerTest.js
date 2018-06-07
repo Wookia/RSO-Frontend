@@ -84,6 +84,14 @@ export function addOrder(order, token) {
     });
 }
 
+export function updateOrder(order, token) {
+    return fetch(root + '/api/orders/' + order.id, {
+        method: 'PUT',
+        body: JSON.stringify(order),
+        headers: headersWithAuthorization(token)
+    });
+}
+
 export function deleteDish(orderId, dishId, token) {
     return new Promise((resolve, reject) => {
         fetch(`${root}/api/orders/${orderId}/dish`, {
