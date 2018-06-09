@@ -44,7 +44,7 @@ export class AddOrder extends React.Component {
 
         try {
             await addOrder(data, this.props.user.token)
-            this.props.toggler();
+            this.props.returnFunction();
         } catch(err) {
             this.setState({ info: err.message });
         }

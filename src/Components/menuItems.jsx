@@ -13,11 +13,15 @@ export function MenuItems(props) {
                                 {item.name}<br/>
                                 Price: {item.price} zł<br/>
                                 <span className='text-muted'>{item.description}</span><br/>
-                                <span style={{cursor: 'pointer'}} 
-                                    onClick={() => props.actionFunction(item, index)} 
-                                    className='badge badge-pill badge-primary'>
-                                        Add
-                                </span>
+                                {
+                                    typeof props.actionFunction === 'function' ?
+                                    <span style={{cursor: 'pointer'}} 
+                                        onClick={() => props.actionFunction(item, index)} 
+                                        className='badge badge-pill badge-primary'>
+                                            Add
+                                    </span>
+                                    : null
+                                }
                             </div>
                         );
                     }

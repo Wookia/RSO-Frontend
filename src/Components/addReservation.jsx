@@ -25,8 +25,13 @@ export class AddReservation extends React.Component {
 
     async addNewReservation(e) {
         e.preventDefault();
-        if (this.state.table === null) {
-            this.setState({info: 'Please Select Table'});
+        if (!this.state.table) {
+            this.setState({info: 'Please select table'});
+            return;
+        }
+
+        if (!this.state.seats) {
+            this.setState({info: 'Please select amount of seats'});
             return;
         }
 

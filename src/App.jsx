@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Login } from './Components/login'
-import { Register } from './Components/register'
 import { Tabs } from './Components/tabs'
 import jwt from 'jsonwebtoken';
 
@@ -47,12 +46,7 @@ export class App extends Component {
           <span className="navbar-brand">RSO</span>
           <Login user={this.state.user} loginSuccessfull={this.loginSuccessfull} logOut={this.logOut} />
         </nav>
-        {
-          this.state.user.loggedIn ?
-            <Tabs user={this.state.user} />
-            :
-            <Register loggedIn={this.state.user.loggedIn} />
-        }
+        <Tabs user={this.state.user} />
       </div>
     );
   }

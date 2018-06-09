@@ -29,6 +29,14 @@ export function getAllTables(token) {
     });
 }
 
+export function getAllTablesNoToken() {
+    return new Promise((resolve, reject) => {
+        fetch(root + '/api/table/')
+            .then(response => resolve(response))
+            .catch(err => reject(err))
+    });
+}
+
 export function getAllReservations(token) {
     return new Promise((resolve, reject) => {
         fetch(root + '/api/reservation/', {headers: headersWithAuthorization(token)})
@@ -71,6 +79,14 @@ export function callOrders(token) {
 export function getMenuItems(token) {
     return new Promise((resolve, reject) => {
         fetch(root + '/api/menu/', { headers: headersWithAuthorization(token) })
+            .then(response => resolve(response))
+            .catch(err => reject(err))
+    });
+}
+
+export function getMenuItemsNoToken() {
+    return new Promise((resolve, reject) => {
+        fetch(root + '/api/menu/')
             .then(response => resolve(response))
             .catch(err => reject(err))
     });
