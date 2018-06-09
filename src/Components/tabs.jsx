@@ -150,7 +150,7 @@ export class Tabs extends React.Component {
                         })}
                     </ol>
                 </nav>
-                <div className="container">
+                <div className="container table-responsive">
                     {this.renderBody()}
                 </div>
             </div>
