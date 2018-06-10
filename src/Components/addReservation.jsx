@@ -1,6 +1,7 @@
 import React from 'react';
 import { SelectTable, Info, Select } from './addOrder'
-import { addReservation } from '../dockerTest'
+import { addReservation, getAllReservations } from '../dockerTest'
+import { TimeSpanPicker } from './timeSpanPicker';
 
 export class AddReservation extends React.Component {
     initialState = { 
@@ -10,7 +11,12 @@ export class AddReservation extends React.Component {
         date: formatDate(new Date()), 
         timeFrom: `${((new Date().getHours() + 1) % 24).toString().padStart(2, '0')}:00:00`, 
         timeTo: `${((new Date().getHours() + 2) % 24).toString().padStart(2, '0')}:00:00`, 
-        seats: '' };
+        seats: '',
+        reservations: {
+            data: [],
+            isLoading: false
+        }
+     };
 
     constructor(props) {
         super(props);
@@ -25,8 +31,13 @@ export class AddReservation extends React.Component {
 
     async addNewReservation(e) {
         e.preventDefault();
-        if (this.state.table === null) {
-            this.setState({info: 'Please Select Table'});
+        if (!this.state.table) {
+            this.setState({info: 'Please select table'});
+            return;
+        }
+
+        if (!this.state.seats) {
+            this.setState({info: 'Please select amount of seats'});
             return;
         }
 
@@ -62,7 +73,19 @@ export class AddReservation extends React.Component {
         if (tableId === this.state.table)
             this.setState({ table: null, info: '' });
         else
+        {
             this.setState({ table: tableId, info: '' });
+            getAllReservations(this.props.user.token) // should be per table
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Something went wrong ...');
+                    }
+                })
+                .then(data => this.setState({ reservations: {data, isLoading: false} }))
+                .catch(error => this.setState({ reservations: { error, isLoading: false }}));
+        }
     }
 
     handleSeatsChange(event) {
@@ -93,6 +116,7 @@ export class AddReservation extends React.Component {
         var selectDate;
         var selectTime;
         var selectSeats;
+        var selectTimeSpan;
         if (this.state.table !== null) {
             selectDate = <div className='form-group fade-in'>
                 <label>Select Date</label>
@@ -101,7 +125,7 @@ export class AddReservation extends React.Component {
             selectTime = <div className='form-row fade-in'>
                 <div className='form-group col-md-6'>
                     <label>Select Time From</label>
-                    <input className='form-control' value={this.state.timeFrom} onChange={this.handleTimeFromChange} type='time' min='10:00' max='22:00' step='900' />
+                    <input className='form-control' value={this.state.timeFrom} onChange={this.handleTimeFromChange} type='time' min='10:00' max='23:00' step='900' />
                 </div>
                 <div className='form-group col-md-6'>
                     <label>Select Time To</label>
@@ -113,6 +137,7 @@ export class AddReservation extends React.Component {
                             changeFunction={this.handleSeatsChange}
                             options={seatsOptions}
                             optionFunction={(option) => <option key={option} value={option}>{option} seats</option>}/>
+            selectTimeSpan = <TimeSpanPicker minTime='10:00' maxTime='23:00' timeFrom={this.state.timeFrom} timeTo={this.state.timeTo} table={this.state.table} reservations={this.state.reservations} date={this.state.date}/>
         }
         return (
             <form onSubmit={this.addNewReservation} className="container">
@@ -123,6 +148,7 @@ export class AddReservation extends React.Component {
                     options={this.props.tables.data} />
                 {selectDate}
                 {selectTime}
+                {selectTimeSpan}
                 {selectSeats}
                 <button className="btn btn-primary" type="submit">Add Reservation</button>
                 <Info text={this.state.info} />
